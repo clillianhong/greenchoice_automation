@@ -7,3 +7,5 @@ import csv
 import os
 import time
 import re
+
+# merge the two tables [productCode, ingredientsList], on="productCode"
