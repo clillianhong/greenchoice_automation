@@ -11,7 +11,7 @@ import re
 # merge the two tables [productCode, ingredientsList], on="productCode"
 
 
-def getIngredients(csv_path, engine_path):
+def getIngredients(csv_path, engine_path, new_csv_path):
 
 	#Get ProductTableMerged
 
@@ -33,13 +33,14 @@ def getIngredients(csv_path, engine_path):
 	prod_ingr = pd.merge(prod_codes, all_ingr, how="left", on="productCode")#merge tables on productCode to obtain ingredients list for products in CSV 
 	print(prod_ingr)
 
-	df['ingredientList'] = prod_ingr['ingredientList']
+	df['ingredientList'] = prod_ingr['ingredientList'] #add column of ingredientLists
 
-	df['text'] = df['text'] + " " + df['ingredientList']
+	df['text'] = df['text'] + " " + df['ingredientList'] #concatenate ingredients list to the text string of features 
 
-	df.to_csv('sample_prod_cat_ingredients.csv')
+	df.to_csv(new_csv_path) #save new csv
 
-engine_path = 'mysql+pymysql://gc:compare123@gcapp.c4xzfsrbmzt9.us-east-1.rds.amazonaws.com:3306/app_backend_db'
-csv_path = 'sample_prod_cat.csv'
-getIngredients(csv_path, engine_path)
-print("HERE")
+def main():
+	engine_path = 'mysql+pymysql://gc:compare123@gcapp.c4xzfsrbmzt9.us-east-1.rds.amazonaws.com:3306/app_backend_db'
+	csv_path = 'sample_prod_cat.csv'
+	new_csv = 'sample_prod_cat_ingredients.csv'
+	getIngredients(csv_path, engine_path, new_csv)
