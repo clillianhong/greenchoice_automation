@@ -94,12 +94,6 @@ def trainModel(csv_path, save_path, lr=1e-1, dropout=0.5, test_size=0.3, batch=3
 	print("Model successfully saved to: " + save_path)
 
 
-	interp = ClassificationInterpretation.from_learner(learn1)
-	interp.plot_confusion_matrix()
-
-	print("Confusion matrix plotted.")
-
-
 def main():
 	csv_path = "~/Experiment/experiment/sample_prod_cat_ingredients.csv"
 	save_path = "testing_model"
