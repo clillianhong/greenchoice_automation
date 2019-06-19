@@ -108,7 +108,6 @@ def cleanLabel(label, is_cat = True):
            '.*tortillas.*flat breads.*', 'deli meat', 'hot dogs, bacon & sausage', 'meat alternatives', 'poultry', 'beef','pork', 'veal, game & specialty',
            '.*fish.*', '.*shellfish.*', '.*prepared.*meals.*', '.*prepared.*sides.*']
     
-    #is this not a valid change
     if is_cat: #cleaning categories 
         for i in range(len(c_re)): 
             newlabel = re.sub(c_re[i], cats[i], label)
