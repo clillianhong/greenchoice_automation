@@ -80,7 +80,7 @@ is_cat >> booleon indicating if labels are categories (else, they are types)
 def cleanLabel(label, is_cat = True):
     label = (str(label)).lower()
     
-    #valid categories/types 
+    #valid categories/type names 
     cats = ['produce', 'dairy & eggs', 'frozen foods', 'beverages', 
             'snacks, chips, salsas & dips','pantry', 'breads & bakery', 
             'meat', 'seafood', 'prepared food']
@@ -108,22 +108,27 @@ def cleanLabel(label, is_cat = True):
            '.*tortillas.*flat breads.*', 'deli meat', 'hot dogs, bacon & sausage', 'meat alternatives', 'poultry', 'beef','pork', 'veal, game & specialty',
            '.*fish.*', '.*shellfish.*', '.*prepared.*meals.*', '.*prepared.*sides.*']
     
-    if is_cat:
+    #is this not a valid change
+    if is_cat: #cleaning categories 
         for i in range(len(c_re)): 
             newlabel = re.sub(c_re[i], cats[i], label)
+
+            #stop if correct label is found
             if newlabel != label:
                 label = newlabel
                 break
-    else:
+    else: #cleaning types
         for i in range(len(t_re)): 
             newlabel = re.sub(t_re[i], typs[i], label)
+
+            #stop if correct label is found
             if newlabel != label:
                 label = newlabel
                 break
 
     return label
     
-
+~/Experiment/experiment/scripts
 
 def main():
     #example usage
