@@ -36,7 +36,8 @@ def getFeatureString(wt, label):
     columns = columns.sample(n=100, random_state=1)
 
     #tuple list of products in form (label, feature string)
-    products = []
+    labels = []
+    features = []
 
     #apply function constructs tuple
     def getTuple(row, wt, label):
@@ -60,12 +61,17 @@ def getFeatureString(wt, label):
 
         label = row[label]
         label = cleanLabel(label)
+        labels.append(label)
         prod_str = name + ingr + cat + typ
-        products.append(tuple((label, prod_str)))
+        features.append(prod_str)
 
     columns.apply(lambda row: getTuple(row, wt, label), axis=1)
 
-    return products
+    df = pd.DataFrame()
+    df['labels'] = labels
+    df['text'] = features
+
+    return df
 
 '''
 Confirms that the label is valid (checks for manual entry label errors, like spelling, extra spacing)
