@@ -12,10 +12,8 @@ import re
 '''
 wt >> weights (number of repetitions in string) given to each feature (productName, ingredientList, productCategory, and productType)
 label >> name of the column you are using as label
-Returns: A list of tuples: label and feature string for each product in the table
+Returns: A dataframe of labels and corresponding text features (a string)
 '''
-
-
 def getFeatureString(wt, label):
     # establish connection
     metadata = MetaData()
@@ -29,7 +27,7 @@ def getFeatureString(wt, label):
         autoload=True,
         autoload_with=engine)
 
-    #select feature columns of interest
+    #select feature columns of interest -  CHANGE HERE TO CHANGE TRAINING FEATURES
     s = select([table.columns.productName, table.columns.ingredientList,
                 table.columns.productCategory, table.columns.productType])
     columns = pd.read_sql(s, connection)
@@ -133,7 +131,10 @@ def cleanLabel(label, is_cat = True):
 
     return label
     
-~/Experiment/experiment/scripts
+'''
+'''
+def combineRetagged(csv, new_tablename, source_table):
+    #TODO 
 
 def main():
     #example usage
