@@ -98,7 +98,7 @@ def cleanLabel(label, is_cat = True):
            'fish', 'shellfish', 'prepared meals', 'prepared sides']
     
     #RE of valid categories
-    c_re = ['.*produce.*', '.*dairy.*egg.*', '.*frozen.*food.*',
+    c_re = ['.*produce.*', '.*dairy.*', '.*frozen.*food.*',
              '.*beverage.*', '.*snack.*chip.*salsa.*dip.*', 
              '.*pantry.*', '.*bread.*bakery.*','.*meat.*',
              '.*seafood.*', '.*prepared.*food']
@@ -132,9 +132,38 @@ def cleanLabel(label, is_cat = True):
     return label
     
 '''
+Returns: new merged dataframe 
+Purpose: Creates a new table in the DB that has all the retagged products with all desired features 
+csv >> path to csv file that contains retagged data
+new_tablename >> name of the new table to generate 
+source_table >> name of the table in the db with which to merge
 '''
 def combineRetagged(csv, new_tablename, source_table):
     #TODO 
+
+    retag = pd.read_csv(csv) 
+    
+    #establish connection
+    metadata=MetaData()
+    engine=create_engine(source_table)
+    connection=engine.connect()#load the product table and nutrition table
+    table=Table("ProductTableMerged", metadata, autoload=True, autoload_with=engine)
+    s = select([table.columns.productCode, table.columns.ingredientList, 
+                table.columns.productDescription, table.columns.productNameSearch])
+    
+    columns = pd.read_sql(s,connection)
+    
+    merged = pd.merge(retag, columns, on='productCode')
+    
+    merged.to_sql(new_tablename, con=engine, if_exists='replace')
+
+    return merged
+    
+    
+    
+
+
+
 
 def main():
     #example usage
